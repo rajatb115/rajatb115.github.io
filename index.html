@@ -1,0 +1,241 @@
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Sparkles, Mail, Linkedin, Github } from "lucide-react";
+import { useState, useEffect } from "react";
+
+export default function Portfolio() {
+  const [page, setPage] = useState("home");
+  const [walkers, setWalkers] = useState([]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const colors = [
+      "bg-purple-200/60",
+      "bg-pink-200/60",
+      "bg-blue-200/60",
+      "bg-green-200/60",
+      "bg-yellow-200/60",
+      "bg-rose-200/60"
+    ];
+
+    const makeWalker = (i) => ({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      tx: Math.random() * window.innerWidth,
+      ty: Math.random() * window.innerHeight,
+      size: 20 + Math.random() * 36,
+      duration: 8 + Math.random() * 14,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+
+    const arr = Array.from({ length: 6 }, (_, i) => makeWalker(i));
+    setWalkers(arr);
+
+    const colorInterval = setInterval(() => {
+      setWalkers((prev) => prev.map((w) => ({ ...w, color: colors[Math.floor(Math.random() * colors.length)] })));
+    }, 3000);
+
+    const targetInterval = setInterval(() => {
+      setWalkers((prev) => prev.map((w) => ({ ...w, tx: Math.random() * window.innerWidth, ty: Math.random() * window.innerHeight })));
+    }, 5000);
+
+    const resizeHandler = () => {
+      setWalkers((prev) => prev.map((w) => ({ ...w, tx: Math.random() * window.innerWidth, ty: Math.random() * window.innerHeight })));
+    };
+
+    window.addEventListener("resize", resizeHandler);
+
+    return () => {
+      clearInterval(colorInterval);
+      clearInterval(targetInterval);
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, []);
+
+  const AnimatedBackground = () => (
+    <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
+      {walkers.map((w) => (
+        <motion.div
+          key={w.id}
+          initial={{ x: w.x, y: w.y, opacity: 0 }}
+          animate={{ x: [w.x, w.tx], y: [w.y, w.ty], opacity: [0.55, 0.95, 0.55] }}
+          transition={{ duration: w.duration, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+          style={{ width: w.size, height: w.size, position: "absolute", borderRadius: "9999px" }}
+          className={`${w.color}`}
+        />
+      ))}
+    </div>
+  );
+
+  const navLinkClass = (p) => `transition px-2 ${page === p ? "text-purple-600 font-semibold" : "text-gray-700 hover:text-purple-600"}`;
+
+  const achievementsByYear = [
+    { year: 2025, items: ["Keynote speaker at Global AI Summit.", "Co-authored paper on efficient transformers."] },
+    { year: 2024, items: ["Built AI models that improved accuracy by 20%.", "Received XYZ Award for innovation in ML."] },
+    { year: 2023, items: ["Published research papers in top conferences.", "Open-source contributor with 500+ stars on GitHub."] }
+  ];
+
+  const publicationsByYear = [
+    { year: 2025, items: ["Efficient Transformers: Conference Paper, 2025.", "Scaling Sparse Attention: Journal, 2025."] },
+    { year: 2024, items: ["Adaptive Optimizers: Workshop Paper, 2024.", "Robust ML Pipelines: Conference Paper, 2024."] },
+    { year: 2023, items: ["Table Retrieval with LLMs: Conference Paper, 2023."] }
+  ];
+
+  if (page === "achievements") {
+    return (
+      <div className="relative min-h-screen bg-white text-black px-6 py-6">
+        <AnimatedBackground />
+        <div className="relative z-10 flex justify-between items-center mb-10">
+          <h1 className="text-2xl font-extrabold text-purple-600">Rajat Singh</h1>
+          <div className="flex gap-6">
+            <button onClick={() => setPage("home")} className={navLinkClass("home")} aria-current={page === "home" ? "page" : undefined}>Home</button>
+            <button onClick={() => setPage("achievements")} className={navLinkClass("achievements")} aria-current={page === "achievements" ? "page" : undefined}>Achievements</button>
+            <button onClick={() => setPage("publications")} className={navLinkClass("publications")} aria-current={page === "publications" ? "page" : undefined}>Publications</button>
+            <button onClick={() => setPage("contact")} className={navLinkClass("contact")} aria-current={page === "contact" ? "page" : undefined}>Contact</button>
+          </div>
+        </div>
+
+        <motion.div initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-10 max-w-4xl mx-auto">
+          <h2 className="text-4xl font-extrabold text-center text-purple-600 mb-8">🏆 Achievements</h2>
+          <div className="flex flex-col gap-8">
+            {achievementsByYear.map((block) => (
+              <div key={block.year} className="bg-gray-50 rounded-2xl p-6 shadow">
+                <div className="mb-4">
+                  <div className="text-xl font-bold text-gray-800">{block.year}</div>
+                </div>
+                <div className="flex flex-col gap-3">
+                  {block.items.map((it, idx) => (
+                    <motion.div key={`${block.year}-${idx}`} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }} className="bg-white rounded-lg p-4 border">
+                      <p className="text-gray-800">{it}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (page === "publications") {
+    return (
+      <div className="relative min-h-screen bg-white text-black px-6 py-6">
+        <AnimatedBackground />
+        <div className="relative z-10 flex justify-between items-center mb-10">
+          <h1 className="text-2xl font-extrabold text-purple-600">Rajat Singh</h1>
+          <div className="flex gap-6">
+            <button onClick={() => setPage("home")} className={navLinkClass("home")} aria-current={page === "home" ? "page" : undefined}>Home</button>
+            <button onClick={() => setPage("achievements")} className={navLinkClass("achievements")} aria-current={page === "achievements" ? "page" : undefined}>Achievements</button>
+            <button onClick={() => setPage("publications")} className={navLinkClass("publications")} aria-current={page === "publications" ? "page" : undefined}>Publications</button>
+            <button onClick={() => setPage("contact")} className={navLinkClass("contact")} aria-current={page === "contact" ? "page" : undefined}>Contact</button>
+          </div>
+        </div>
+
+        <motion.div initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-10 max-w-4xl mx-auto">
+          <h2 className="text-4xl font-extrabold text-center text-blue-600 mb-8">📚 Publications</h2>
+          <div className="flex flex-col gap-8">
+            {publicationsByYear.map((block) => (
+              <div key={block.year} className="bg-gray-50 rounded-2xl p-6 shadow">
+                <div className="mb-4">
+                  <div className="text-xl font-bold text-gray-800">{block.year}</div>
+                </div>
+                <div className="flex flex-col gap-3">
+                  {block.items.map((it, idx) => (
+                    <motion.div key={`${block.year}-pub-${idx}`} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }} className="bg-white rounded-lg p-4 border">
+                      <p className="text-gray-800">{it}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (page === "contact") {
+    return (
+      <div className="relative min-h-screen bg-white text-black px-6 py-6">
+        <AnimatedBackground />
+        <div className="relative z-10 flex justify-between items-center mb-10">
+          <h1 className="text-2xl font-extrabold text-purple-600">Rajat Singh</h1>
+          <div className="flex gap-6">
+            <button onClick={() => setPage("home")} className={navLinkClass("home")} aria-current={page === "home" ? "page" : undefined}>Home</button>
+            <button onClick={() => setPage("achievements")} className={navLinkClass("achievements")} aria-current={page === "achievements" ? "page" : undefined}>Achievements</button>
+            <button onClick={() => setPage("publications")} className={navLinkClass("publications")} aria-current={page === "publications" ? "page" : undefined}>Publications</button>
+            <button onClick={() => setPage("contact")} className={navLinkClass("contact")} aria-current={page === "contact" ? "page" : undefined}>Contact</button>
+          </div>
+        </div>
+
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-10 max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">Let’s Connect ✨</h2>
+          <div className="flex gap-4 justify-center">
+            <Button variant="outline" className="rounded-full border-purple-600 text-purple-600" asChild>
+              <a href="mailto:your.email@example.com"><Mail className="mr-2" /> Email</a>
+            </Button>
+            <Button variant="outline" className="rounded-full border-blue-600 text-blue-600" asChild>
+              <a href="https://linkedin.com/in/yourlinkedin" target="_blank" rel="noopener noreferrer"><Linkedin className="mr-2" /> LinkedIn</a>
+            </Button>
+            <Button variant="outline" className="rounded-full border-black text-black" asChild>
+              <a href="https://github.com/yourgithub" target="_blank" rel="noopener noreferrer"><Github className="mr-2" /> GitHub</a>
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative min-h-screen bg-white text-black flex flex-col items-center justify-center px-6 py-12">
+      <AnimatedBackground />
+
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="relative z-10 text-center max-w-2xl flex flex-col items-center">
+        <img src="https://raw.githubusercontent.com/yourusername/yourrepo/main/assets/your-image.jpg" alt="Rajat Singh" className="w-40 h-40 rounded-full border-4 border-purple-600 shadow-lg mb-6 object-cover" />
+        <h1 className="text-5xl font-extrabold mb-4 flex items-center justify-center gap-2">Hi, I’m <span className="text-purple-600">Rajat Singh</span><Sparkles className="text-yellow-500 animate-pulse" /></h1>
+        <p className="text-lg text-gray-700 mb-6">A curious explorer in the world of <span className="text-purple-600">AI</span>, <span className="text-blue-600"> Machine Learning</span>, and <span className="text-green-600"> Software Engineering</span>. I love turning complex ideas into impactful solutions.</p>
+      </motion.div>
+
+      <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+        <Card onClick={() => setPage("achievements")} className="bg-gray-100 border-none shadow-xl rounded-2xl hover:scale-105 transition-transform cursor-pointer">
+          <CardContent className="p-6 text-center">
+            <h2 className="text-xl font-bold text-purple-600 mb-2">🏆 Achievements</h2>
+            <p className="text-gray-700">Click to view my key milestones and accomplishments.</p>
+          </CardContent>
+        </Card>
+
+        <Card onClick={() => setPage("publications")} className="bg-gray-100 border-none shadow-xl rounded-2xl hover:scale-105 transition-transform cursor-pointer">
+          <CardContent className="p-6 text-center">
+            <h2 className="text-xl font-bold text-blue-600 mb-2">📚 Publications</h2>
+            <p className="text-gray-700">Papers and articles I have published.</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-100 border-none shadow-xl rounded-2xl hover:scale-105 transition-transform">
+          <CardContent className="p-6 text-center">
+            <h2 className="text-xl font-bold text-green-600 mb-2">📚 Journey</h2>
+            <p className="text-gray-700">From coding experiments to research, I thrive on learning and evolving.</p>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      <motion.div id="contact" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="relative z-10 mt-12 text-center">
+        <h2 className="text-2xl font-bold mb-4">Let’s Connect ✨</h2>
+        <div className="flex gap-4 justify-center">
+          <Button variant="outline" className="rounded-full border-purple-600 text-purple-600" asChild>
+            <a href="mailto:your.email@example.com"><Mail className="mr-2" /> Email</a>
+          </Button>
+          <Button variant="outline" className="rounded-full border-blue-600 text-blue-600" asChild>
+            <a href="https://linkedin.com/in/yourlinkedin" target="_blank" rel="noopener noreferrer"><Linkedin className="mr-2" /> LinkedIn</a>
+          </Button>
+          <Button variant="outline" className="rounded-full border-black text-black" asChild>
+            <a href="https://github.com/yourgithub" target="_blank" rel="noopener noreferrer"><Github className="mr-2" /> GitHub</a>
+          </Button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}

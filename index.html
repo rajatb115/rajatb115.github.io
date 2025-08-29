@@ -3,23 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rajat Singh Portfolio</title>
+<title>Rajat Singh | Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  body { margin: 0; font-family: Arial, sans-serif; background: white; color: black; overflow-x: hidden; }
-  .nav { display: flex; justify-content: space-between; padding: 1rem; background: #f9f9f9; position: sticky; top: 0; z-index: 100; }
-  .nav button { margin-left: 1rem; cursor: pointer; background: none; border: none; font-weight: bold; color: #555; }
-  .nav button.active { color: #7e22ce; }
-  .section { max-width: 800px; margin: auto; padding: 2rem; }
-  .card { background: #f0f0f0; border-radius: 1rem; padding: 1rem; margin: 1rem 0; cursor: pointer; transition: transform 0.2s; }
-  .card:hover { transform: scale(1.03); }
-  .year { font-weight: bold; font-size: 1.2rem; margin-bottom: 0.5rem; }
-  .bubble { position: absolute; border-radius: 50%; opacity: 0.7; pointer-events: none; }
+  :root {
+    --primary-color: #7e22ce;
+    --secondary-color: #f9a8d4;
+    --background-color: #fdfdff;
+    --text-color: #333;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #eee;
+  }
+  .nav h1 {
+    margin: 0;
+    color: var(--primary-color);
+    font-weight: 700;
+  }
+  .nav-links button {
+    margin-left: 1.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-weight: 600;
+    color: #555;
+    font-size: 1rem;
+    position: relative;
+    padding-bottom: 5px;
+  }
+  .nav-links button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+  }
+  .nav-links button:hover::after,
+  .nav-links button.active::after {
+    width: 100%;
+  }
+  .nav-links button.active {
+    color: var(--primary-color);
+  }
+  .section {
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid #eee;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  }
+  .card.clickable {
+    cursor: pointer;
+  }
+  .year {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+  }
+  .home-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  .home-header img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid var(--primary-color);
+    box-shadow: var(--shadow);
+  }
+  .home-header-text h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  .home-header-text p {
+    font-size: 1.1rem;
+    color: #666;
+  }
+  .home-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .home-cards .card {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+  }
+  .contact-links a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: inline-block;
+      transition: letter-spacing 0.3s;
+  }
+  .contact-links a:hover {
+      letter-spacing: 1px;
+  }
+
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+    pointer-events: none;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+  @media (max-width: 600px) {
+    .nav { flex-direction: column; gap: 1rem; }
+    .home-header { flex-direction: column; text-align: center; }
+    .home-cards { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 <div class="nav">
-  <h1 style="color:#7e22ce;">Rajat Singh</h1>
-  <div>
+  <h1>Rajat Singh</h1>
+  <div class="nav-links">
     <button onclick="showPage('home')" id="btn-home">Home</button>
     <button onclick="showPage('achievements')" id="btn-achievements">Achievements</button>
     <button onclick="showPage('publications')" id="btn-publications">Publications</button>
@@ -31,11 +183,17 @@
 const pages = {
   home: `
     <div class="section">
-      <img src="https://raw.githubusercontent.com/yourusername/yourrepo/main/assets/your-image.jpg" alt="Rajat Singh" style="width:150px;border-radius:50%;border:4px solid #7e22ce;">
-      <h2>Hi, I'm Rajat Singh ✨</h2>
-      <p>A curious explorer in AI, Machine Learning, and Software Engineering.</p>
-      <div class="card" onclick="showPage('achievements')">🏆 Achievements</div>
-      <div class="card" onclick="showPage('publications')">📚 Publications</div>
+      <div class="home-header">
+        <img src="https://avatars.githubusercontent.com/u/10840299?v=4" alt="Rajat Singh">
+        <div class="home-header-text">
+          <h2>Hi, I'm Rajat ✨</h2>
+          <p>A passionate developer and researcher exploring the frontiers of AI, Machine Learning, and Software Engineering. Welcome to my personal space on the web!</p>
+        </div>
+      </div>
+      <div class="home-cards">
+        <div class="card clickable" onclick="showPage('achievements')">🏆 Achievements</div>
+        <div class="card clickable" onclick="showPage('publications')">📚 Publications</div>
+      </div>
     </div>
   `,
   achievements: `
@@ -56,47 +214,68 @@ const pages = {
   `,
   contact: `
     <div class="section">
-      <h2>Contact Me ✨</h2>
-      <div><a href="mailto:your.email@example.com">Email</a></div>
-      <div><a href="https://linkedin.com/in/yourlinkedin" target="_blank">LinkedIn</a></div>
-      <div><a href="https://github.com/yourgithub" target="_blank">GitHub</a></div>
+      <h2>Get In Touch ✨</h2>
+      <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of an amazing team. Feel free to reach out!</p>
+      <div class="contact-links">
+        <div><a href="mailto:your.email@example.com">📧 Email: your.email@example.com</a></div>
+        <div><a href="https://linkedin.com/in/yourlinkedin" target="_blank">💼 LinkedIn: /in/yourlinkedin</a></div>
+        <div><a href="https://github.com/yourgithub" target="_blank">💻 GitHub: /yourgithub</a></div>
+      </div>
     </div>
   `
 };
 
 function showPage(page) {
-  document.getElementById('content').innerHTML = pages[page];
-  ['home','achievements','publications','contact'].forEach(p => document.getElementById('btn-'+p).classList.remove('active'));
+  const content = document.getElementById('content');
+  content.innerHTML = pages[page];
+  document.querySelectorAll('.nav-links button').forEach(btn => btn.classList.remove('active'));
   document.getElementById('btn-'+page).classList.add('active');
 }
 
 showPage('home');
 
 // Bubble background animation
-const colors = ['#a78bfa','#f9a8d4','#60a5fa','#34d399','#facc15','#f43f5e'];
-const bubbles = [];
-for(let i=0;i<6;i++){
-  const bubble = document.createElement('div');
-  bubble.classList.add('bubble');
-  bubble.style.background = colors[Math.floor(Math.random()*colors.length)];
-  const size = 20 + Math.random()*36;
-  bubble.style.width = bubble.style.height = size+'px';
-  bubble.style.left = Math.random()*(window.innerWidth-size)+'px';
-  bubble.style.top = Math.random()*(window.innerHeight-size)+'px';
-  document.body.appendChild(bubble);
-  bubbles.push(bubble);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const colors = ['#a78bfa', '#f9a8d4', '#60a5fa', '#34d399', '#facc15', '#f43f5e'];
+    const numBubbles = 10;
+    const container = document.body;
 
-function animateBubbles(){
-  bubbles.forEach(b => {
-    const size = b.offsetWidth;
-    const tx = Math.random()*(window.innerWidth-size);
-    const ty = Math.random()*(window.innerHeight-size);
-    const dur = 8000 + Math.random()*14000;
-    b.animate([{transform:`translate(${b.offsetLeft}px,${b.offsetTop}px)`},{transform:`translate(${tx}px,${ty}px)`}], {duration:dur, iterations:Infinity, direction:'alternate', easing:'linear'});
-  });
-}
-animateBubbles();
+    for (let i = 0; i < numBubbles; i++) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        
+        const size = 20 + Math.random() * 40;
+        const startX = Math.random() * window.innerWidth;
+        const startY = Math.random() * window.innerHeight;
+        
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+        bubble.style.background = colors[Math.floor(Math.random() * colors.length)];
+        bubble.style.left = startX + 'px';
+        bubble.style.top = startY + 'px';
+        
+        container.appendChild(bubble);
+        
+        animateBubble(bubble);
+    }
+
+    function animateBubble(bubble) {
+        const size = bubble.offsetWidth;
+        const newX = Math.random() * (window.innerWidth - size);
+        const newY = Math.random() * (window.innerHeight - size);
+        const duration = 10000 + Math.random() * 15000;
+
+        bubble.animate([
+            { transform: `translate(0, 0)` },
+            { transform: `translate(${newX - parseFloat(bubble.style.left)}px, ${newY - parseFloat(bubble.style.top)}px)` }
+        ], {
+            duration: duration,
+            iterations: Infinity,
+            direction: 'alternate',
+            easing: 'ease-in-out'
+        });
+    }
+});
 </script>
 </body>
 </html>

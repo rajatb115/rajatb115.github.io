@@ -155,7 +155,8 @@
   .bubble {
     position: absolute;
     border-radius: 50%;
-    opacity: 0.6;
+    opacity: 0.2;
+    z-index: -1;
     pointer-events: none;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -244,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const bubble = document.createElement('div');
         bubble.classList.add('bubble');
         
-        const size = 20 + Math.random() * 40;
+        const size = 10 + Math.random() * 20;
         const startX = Math.random() * window.innerWidth;
         const startY = Math.random() * window.innerHeight;
         

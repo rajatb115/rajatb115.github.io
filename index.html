@@ -100,11 +100,14 @@
     margin-bottom: 0.5rem;
     color: var(--primary-color);
   }
+  .home-header-wrapper { 
+      margin-bottom: 2rem;
+  }
   .home-header {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 2rem;
-    margin-bottom: 2rem;
   }
   .home-header img {
     width: 150px;
@@ -114,13 +117,14 @@
     box-shadow: var(--shadow);
   }
   .home-header-text h2 {
-    margin: 0 0 0.5rem 0;
+    margin: 0;
     font-size: 2.5rem;
     font-weight: 700;
   }
-  .home-header-text p {
+  .home-description {
     font-size: 1.1rem;
     color: #666;
+    margin-top: 1.5rem;
   }
   .home-cards {
     display: grid;
@@ -194,12 +198,14 @@
 </div>
 <div id="content">
   <div class="section">
-    <div class="home-header">
-      <img src="https://avatars.githubusercontent.com/u/10840299?v=4" alt="Rajat Singh">
-      <div class="home-header-text">
-        <h2>Hi, I'm Rajat <span class="animated-star">✨</span></h2>
-        <p>A passionate developer and researcher exploring the frontiers of AI, Machine Learning, and Software Engineering. Welcome to my personal space on the web!</p>
-      </div>
+    <div class="home-header-wrapper">
+        <div class="home-header">
+          <img src="https://avatars.githubusercontent.com/u/10840299?v=4" alt="Rajat Singh">
+          <div class="home-header-text">
+            <h2>Hi, I'm Rajat <span class="animated-star">✨</span></h2>
+          </div>
+        </div>
+        <p class="home-description">A passionate developer and researcher exploring the frontiers of AI, Machine Learning, and Software Engineering. Welcome to my personal space on the web!</p>
     </div>
     <div class="home-cards">
       <div class="card clickable" onclick="window.location.href='achievements.html'">🏆 Achievements</div>
